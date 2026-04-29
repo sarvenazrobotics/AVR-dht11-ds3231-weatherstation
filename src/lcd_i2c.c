@@ -32,6 +32,13 @@
 #define MENU_ABOUT
 
 
+#define I2C_SDA_HIGH() PORTC |= (1<<4)
+#define I2C_SDA_LOW()  PORTC &= ~(1<<4)
+#define I2C_SCL_HIGH() PORTC |= (1<<5)
+#define I2C_SCL_LOW() PORTC &= ~(1<<5)
+#define I2C_SDA_READ() (PINC & (1<<4))
+
+
 static void lcd_send_data(uint8_t data,uint8_t cmd)
 {
 
