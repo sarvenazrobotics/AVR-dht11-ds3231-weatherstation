@@ -39,13 +39,18 @@
 #define I2C_SDA_READ() (PINC & (1<<4))
 
 
-static void lcd_send_data(uint8_t data,uint8_t cmd)
-{
+void i2c_delay(void){
+  delay_us(5);
+}
 
-//extract high and low nibbles
-uint8_t high_nibble=(0xF0);   //mask lower 4 bits
-uint8_t low_nibble=((data<<4)& 0xF0);   //shift lower 4 bits to upper position 
-
+void i2c_start(void){
+I2C_SDA_HIGH();
+I2C_SCL_HIGH();
+i2c_delay();
+I2C_SDA_LOW();
+i2c_delay();
+I2C_SCL_LOW();
+i2c_delay();
 }
 
 void main(void)
