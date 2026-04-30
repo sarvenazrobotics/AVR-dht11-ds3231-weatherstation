@@ -93,7 +93,26 @@ for(i=0;i<8;i++){
  
 //=========LCD functions======
 
-void lcd_send_byte
+void lcd_send_byte(unsigned char data,unsigned char cmd)
+{
+ unsigned char high_nibble,low_nibble,byte_to_send;
+ 
+ //split into two nibbles 4bit mode 
+ high_nibble=(data & 0xF0);
+ low_nibble=((data<<4)& 0xF0);
+ 
+ //send high nibble 
+ byte_to_send=high nibble;
+ if(cmd){
+  byte_to_send |= 0x00; //RS=0  COMMAND 
+  }else{
+  byte_to_send |= 0x01; //RS=1 DATA
+  }
+  byte_to_send |= 0x04; //en=1
+  
+  
+
+}
  
 void main(void)
 {
