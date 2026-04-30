@@ -108,7 +108,16 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   }else{
   byte_to_send |= 0x01; //RS=1 DATA
   }
-  byte_to_send |= 0x04; //en=1
+  byte_to_send |= 0x04; //en=1 
+  
+  
+  i2c_start();
+  i2c_write(LCD_ADDR);
+  i2c_write(byte_to_send);
+  i2c_stop();
+  delay_us(1);
+  
+  
   
   
 
