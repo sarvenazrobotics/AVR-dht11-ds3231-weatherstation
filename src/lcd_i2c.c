@@ -79,12 +79,12 @@ for(i=0;i<8;i++){
      data<<=1;}
      //get ack
      
-     I2C_SDA_HIGH();
+     I2C_SDA_HIGH();//releases SDA for ack
      i2c_delay();
-     I2C_SCL_HIGH();
+     I2C_SCL_HIGH();//slaves look at SDA just when SCL is high
      i2c_delay();
-     ack=I2C_SDA_READ();
-     I2C_SCL_LOW();
+     ack=I2C_SDA_READ();//read slave answer
+     I2C_SCL_LOW();//prepares for next operation
      i2c_delay();
      
      return ack; //ack means received and nack means 1
