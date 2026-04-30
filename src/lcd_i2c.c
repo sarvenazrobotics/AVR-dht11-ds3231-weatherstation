@@ -56,12 +56,39 @@ i2c_delay();
 
 void i2c_stop(void){
 I2C_SDA_LOW();
+
 I2C_SCL_HIGH();
 i2c_delay();
 I2C_SDA_HIGH();
 i2c_delay();
 }
 
+
+unsigned char i2c_write(unsigned char data)
+{  unsigned char i,ack;
+//send 8 bits
+for(i=0;i<8;i++){
+ if(data & 0x80)
+     I2C_SDA_HIGH();
+ else
+     I2C_SDA_LOW();
+     i2c_delay();
+     I2C_SCL_HIGH();
+     i2c_delay();
+     I2C_SDA_HIGH();
+     data<<=1;}
+     //get ack
+     
+     I2C_SDA_HIGH();
+     i2c_delay();
+     I2C_SCL_HIGH();
+     i2c_delay();
+     ack=I2C_SDA_READ();
+     I2C_SCL_LOW();
+     i2c_delay();
+     
+     return ack; //ack means received and nack means 1
+ }
 void main(void)
 {
 while (1)
