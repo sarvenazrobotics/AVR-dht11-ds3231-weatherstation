@@ -76,7 +76,7 @@ for(i=0;i<8;i++){
      I2C_SCL_HIGH();
      i2c_delay();
      I2C_SDA_HIGH();
-     data<<=1;}
+     data<<=1;} //move to next bit
      //get ack
      
      I2C_SDA_HIGH();//releases SDA for ack
@@ -88,7 +88,13 @@ for(i=0;i<8;i++){
      i2c_delay();
      
      return ack; //ack means received and nack means 1
- }
+ }   
+ 
+ 
+//=========LCD functions======
+
+void lcd_send_byte
+ 
 void main(void)
 {
 while (1)
