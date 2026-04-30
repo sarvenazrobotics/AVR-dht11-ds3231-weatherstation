@@ -115,7 +115,20 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   i2c_write(LCD_ADDR);
   i2c_write(byte_to_send);
   i2c_stop();
-  delay_us(1);
+  delay_us(1);  
+  
+//pulse EN low LCD reads on falling edge
+  byte_to_send &= ~0x04;
+  i2c_start();
+  i2c_write(LCD_ADDR);
+  i2c_write(byte_to_send);
+  i2c_stop();
+  delay_us(50);
+  
+//===send low nibble===
+  
+  
+  
   
   
   
