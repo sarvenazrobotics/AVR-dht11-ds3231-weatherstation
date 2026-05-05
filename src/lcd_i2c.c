@@ -140,6 +140,13 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
     i2c_write(byte_to_send);
     i2c_stop();
     delay_us(50);
+    
+    i2c_start();
+    i2c_write(LCD_ADDR);
+    i2c_write(byte_to_send);
+    i2c_stop();
+    delay_ms(2);
+    }
  
 void main(void)
 {
