@@ -167,6 +167,11 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  lcd_send_byte(LCD_ENTRY_MODE,1);
  }
  
+ void lcd_clear(void){
+ lcd_send_byte(LCD_CLEAR,1);
+ delay_ms(2);
+ }
+ 
 void main(void)
 {
 while (1)
