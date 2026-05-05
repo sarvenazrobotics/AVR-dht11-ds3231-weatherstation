@@ -172,6 +172,13 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  delay_ms(2);
  }
  
+ void lcd_set_cursor(unsigned char row,unsigned char col){
+ unsigned char address;
+ if(row==0){
+ address=LCD_LINE1+col;}
+ else{address=LCD_LINE2+col;}
+ lcd_send_byte(address,1);}
+ 
 void main(void)
 {
 while (1)
