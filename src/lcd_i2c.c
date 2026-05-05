@@ -179,6 +179,15 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  else{address=LCD_LINE2+col;}
  lcd_send_byte(address,1);}
  
+ //single charactor &string on LCD
+ void lcd_print_char(char c){
+ lcd_send_byte(c,0); }//0=data mode
+ 
+ void lcd_print_string(const char* str)
+ {while(*str){
+     lcd_print_char(*str++);
+     }} 
+  
 void main(void)
 {
 while (1)
