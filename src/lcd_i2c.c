@@ -146,7 +146,21 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
     i2c_write(byte_to_send);
     i2c_stop();
     delay_ms(2);
-    }
+    } 
+    
+    
+ //intialize the lcd display 
+ 
+ void lcd_init(void){
+ delay_ms(50);
+ 
+ //intialization by HD44780 datasheet
+ 
+ lcd_send_byte(0x30,1); delay_ms(5);//8bit
+ lcd_send_byte(0x30,1); delay_ms(200);
+ lcd_send_byte(0x30,1); delay_ms(5);
+ lcd_send_byte(0x20,1);
+ }
  
 void main(void)
 {
