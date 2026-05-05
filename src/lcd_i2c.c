@@ -186,7 +186,19 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  void lcd_print_string(const char* str)
  {while(*str){
      lcd_print_char(*str++);
-     }} 
+     }}
+     
+ //=====DHT11 SENSOR FUNCTIONS====
+ //READ TEMPERATURE AND HUMADITY
+ //RETURN  SUCCESS=0,NO RES=1,CHECKSUM ERROR=2
+ unsigned char dht11_read(unsigned int *temp,unsigned int *humi)
+ { 
+   unsigned char i,j,checksum;
+   unsigned char data[5]={0,0,0,0,0}; 
+ 
+ 
+ }
+  
   
 void main(void)
 {
