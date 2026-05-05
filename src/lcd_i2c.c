@@ -175,8 +175,8 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  void lcd_set_cursor(unsigned char row,unsigned char col){
  unsigned char address;
  if(row==0){
- address=LCD_LINE1+col;}
- else{address=LCD_LINE2+col;}
+ address=LCD_LINE1+col;} //0x80+col
+ else{address=LCD_LINE2+col;}//0xC0+col
  lcd_send_byte(address,1);}
  
  //single charactor &string on LCD
