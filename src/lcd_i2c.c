@@ -102,7 +102,7 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  low_nibble=((data<<4)& 0xF0);
  
  //send high nibble 
- byte_to_send=high nibble;
+ byte_to_send=high_nibble;
  if(cmd){
   byte_to_send |= 0x00; //RS=0  COMMAND 
   }else{
@@ -127,14 +127,13 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   
 //===send low nibble===
   
-  
-  
-  
-  
-  
-  
-
-}
+  byte_to_send=low_nibble;
+  if(cmd){
+    byte_to_send |= 0x00; //   RS=0
+    }else{
+    byte_to_send |= 0x01; //RS=1}
+    }
+    byte_to_send |= 0x04; //en=1 
  
 void main(void)
 {
