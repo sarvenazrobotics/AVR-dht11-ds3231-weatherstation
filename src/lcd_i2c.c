@@ -159,7 +159,12 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  lcd_send_byte(0x30,1); delay_ms(5);//8bit
  lcd_send_byte(0x30,1); delay_ms(200);
  lcd_send_byte(0x30,1); delay_ms(5);
- lcd_send_byte(0x20,1);
+ lcd_send_byte(0x20,1);//4bit
+ 
+ lcd_send_byte(LCD_FUNCTION_4BIT,1); //4BIT,2 LINES
+ lcd_send_byte(LCD_DISPLAY_ON,1);
+ lcd_send_byte(LCD_CLEAR,1);
+ lcd_send_byte(LCD_ENTRY_MODE,1);
  }
  
 void main(void)
