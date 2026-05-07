@@ -195,7 +195,19 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
  { 
    unsigned char i,j,checksum;
    unsigned char data[5]={0,0,0,0,0}; 
- 
+   //SEND START SIGNAL TO DHT11
+   DDRD |= (1<<DHT11_PIN); //SET AS OUTPUT
+   PORTD &= ~(1<<DHT11_PIN);//PULL LOW
+   delay_ms(18); 
+   PORTD |= (1<<DHT11_PIN); // PULL HIGH
+   delay_us(40);
+   DDRD &= ~(1<< DHT11_PIN); //SET AS INPUT
+   PORTD |= (1<<DHT11_PIN);//ENABLE PULL-UP
+   
+   delay_us(40);
+   if(PIND & (1<<DHT11_PIN)) return 1;//no response as pin is high
+   
+   
  
  }
   
