@@ -230,7 +230,15 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
    *temp = data[2]*10 + data[3];
     return 0; //success
    
- }
+ }  
+ 
+ 
+ //=====DS3231 rtc ===== 
+ 
+ #define DS3231_ADDR 0xD0 //WRITE ADDRESS (0x68 << 1)
+ 
+ //convert BCD TO decimal
+ 
   
   
 void main(void)
