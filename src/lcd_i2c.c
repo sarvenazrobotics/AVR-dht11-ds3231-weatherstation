@@ -206,9 +206,27 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
    
    delay_us(40);
    if(PIND & (1<<DHT11_PIN)) return 1;//no response as pin is high
+   delay_us(80);
+   if(!(PIND & (1<<DHT11_PIN))) return 1;
+   delay_us(80);
+   
+   //Read 40 bits (5 bytes) from DHT11
+   for(i=0;i<5;i++){
+        for(j=0;j<8;j++){
+            while(!(PIND & (1<<DHT11_PIN)));//WAIT FOR START OF PIN
+            delay_us(30);
+            data[i] <<= 1;
+            if (PIND & (1<<DHT11_PIN)){
+                data[i] |= 1;
+            }
+          while(PIND & (1<<DHT11_PIN));//wait for end of bit 
+        }
+   }
+   
+   checksum=data[0]+data[1]+data[2]+data[3];
+   if()
    
    
- 
  }
   
   
