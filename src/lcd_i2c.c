@@ -336,6 +336,15 @@ void display_main_menu(unsigned char selected) {
     } else {
         lcd_print_string(" ");
     }
+    
+    // Display temperature and humidity reading
+void display_temperature_humidity(void) {
+    unsigned int temp, humi;
+    char buffer[17];
+    
+    lcd_clear();
+    lcd_set_cursor(0, 0);
+    lcd_print_string("Reading sensors...");
 }
   
 void main(void)
