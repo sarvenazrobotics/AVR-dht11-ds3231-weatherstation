@@ -329,6 +329,14 @@ void display_main_menu(unsigned char selected) {
     } else {
         lcd_print_string("  1. Temp & Hum");
     }
+    
+    lcd_set_cursor(1, 14);
+    if(selected == 1) {
+        lcd_print_string(">");
+    } else {
+        lcd_print_string(" ");
+    }
+}
   
 void main(void)
 {
