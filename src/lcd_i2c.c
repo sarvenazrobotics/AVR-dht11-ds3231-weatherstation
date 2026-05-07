@@ -314,6 +314,15 @@ unsigned char button_get_press(unsigned char pin) {
     
     return 0;
 }
+
+
+//===Menu Main===
+
+void display_main_menu(unsigned char selected) {
+    lcd_clear();
+    lcd_set_cursor(0, 0);
+    lcd_print_string("Weather Station");
+    lcd_set_cursor(1, 0);
    
   
   
