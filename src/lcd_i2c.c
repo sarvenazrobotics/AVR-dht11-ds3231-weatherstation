@@ -335,7 +335,7 @@ void display_main_menu(unsigned char selected) {
         lcd_print_string(">");
     } else {
         lcd_print_string(" ");
-    }
+    }}
     
     // Display temperature and humidity reading
 void display_temperature_humidity(void) {
@@ -345,7 +345,29 @@ void display_temperature_humidity(void) {
     lcd_clear();
     lcd_set_cursor(0, 0);
     lcd_print_string("Reading sensors...");
-}
+    
+    if(dht11_read(&temp, &humi) == 0) {
+        // Success - display readings
+        lcd_clear();
+        lcd_set_cursor(0, 0);
+        sprintf(buffer, "Temp: %d.%d C", temp/10, temp%10);
+        lcd_print_string(buffer);
+        
+        lcd_set_cursor(1, 0);
+        sprintf(buffer, "Hum:  %d.%d %%", humi/10, humi%10);
+        lcd_print_string(buffer);}
+        else {
+        // Error - display message
+        lcd_clear();
+        lcd_set_cursor(0, 0);
+        lcd_print_string("DHT11 Error!");
+        lcd_set_cursor(1, 0);
+        lcd_print_string("Check wiring");
+    }
+    
+    delay_ms(2000);}
+
+
   
 void main(void)
 {
