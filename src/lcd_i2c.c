@@ -262,8 +262,20 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   *minute = bcd_to_dec(i2c_write(0xFF)& 0x7F);
   *hour = bcd_to_dec(i2c_write(0xFF)& 0x3F);
   
+  
+  i2c_stop();
   }
- 
+  
+  void ds3231_set_time(unsigned char hour,unsigned char minute,unsigned char second)
+   {
+  i2c_start();
+  i2c_write(DS3231_ADDR); //send write address
+  i2c_write(0x00); //start at second register
+  i2c_write(dec_to_bcd(second)); //repeated start for read
+  i2c_write(dec_to_bcd(minute));
+  i2c_write(dec_to_bcd(hour));
+  i2c_stop();
+   }
   
   
 void main(void)
