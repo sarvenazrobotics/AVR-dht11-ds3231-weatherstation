@@ -14,8 +14,8 @@
 #define LCD_ADDR 0x27
 
 #define DHT11_PIN 2
-#define BUTTON_UP
-#define BUTTON_DOWN
+#define BUTTON_UP 3
+#define BUTTON_DOWN 4
 
 //DEFINE LCD MODES
 #define LCD_CLEAR 0x01
@@ -264,7 +264,8 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   
   
   i2c_stop();
-  }
+  }    
+  
   
   void ds3231_set_time(unsigned char hour,unsigned char minute,unsigned char second)
    {
@@ -275,7 +276,45 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   i2c_write(dec_to_bcd(minute));
   i2c_write(dec_to_bcd(hour));
   i2c_stop();
-   }
+   } 
+   
+ //====BUTTON FUNCTION====
+ // Check if a button is currently pressed
+unsigned char button_is_pressed(unsigned char pin) {
+    return (PIND & (1 << pin)) ? 1 : 0;
+}
+
+// Check for button press with debouncing
+// Returns 1 only once per physical press
+unsigned char button_get_press(unsigned char pin) {
+    static unsigned char up_last = 0;
+    static unsigned char down_last = 0;
+    unsigned char current;
+    unsigned char *last;
+    
+    // Select which button's state to track
+    if(pin == BUTTON_UP) {
+        last = &up_last;
+        } else {
+        last = &down_last;
+    }
+    
+    current = button_is_pressed(pin);
+    
+    // Detect rising edge (off -> on)
+    if(current && !(*last)) {
+        *last = 1;
+        delay_ms(50);  // Debounce delay
+        return 1;
+    }
+    // Reset when button is released
+    if(!current) {
+        *last = 0;
+    }
+    
+    return 0;
+}
+   
   
   
 void main(void)
