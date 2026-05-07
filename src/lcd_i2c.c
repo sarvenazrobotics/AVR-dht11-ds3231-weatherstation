@@ -13,7 +13,7 @@
 
 #define LCD_ADDR 0x27
 
-#define DHT11_PIN
+#define DHT11_PIN 2
 #define BUTTON_UP
 #define BUTTON_DOWN
 
