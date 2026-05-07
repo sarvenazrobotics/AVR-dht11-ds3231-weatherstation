@@ -259,8 +259,8 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   i2c_write(DS3231_ADDR | 0x01);//send read address
   
   *second = bcd_to_dec(i2c_write(0xFF)& 0x7F); //READ SECONDS,SEND ACK
-  
-  
+  *minute = bcd_to_dec(i2c_write(0xFF)& 0x7F);
+  *hour = bcd_to_dec(i2c_write(0xFF)& 0x3F);
   
   }
  
