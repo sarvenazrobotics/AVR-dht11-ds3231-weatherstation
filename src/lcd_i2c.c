@@ -324,7 +324,11 @@ void display_main_menu(unsigned char selected) {
     lcd_print_string("Weather Station");
     lcd_set_cursor(1, 0);
    
-  
+   if(selected == 0) {
+        lcd_print_string("> 1. Temp & Hum");
+    } else {
+        lcd_print_string("  1. Temp & Hum");
+    }
   
 void main(void)
 {
