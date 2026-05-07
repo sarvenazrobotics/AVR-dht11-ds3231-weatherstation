@@ -224,8 +224,11 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
    }
    
    checksum=data[0]+data[1]+data[2]+data[3];
-   if()
+   if(checksum != data[4]) return 2;//checksum error
    
+   *humi = data[0]*10 + data[1];
+   *temp = data[2]*10 + data[3];
+    return 0; //success
    
  }
   
