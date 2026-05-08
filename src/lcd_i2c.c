@@ -399,7 +399,13 @@ void main(void)
     DDRD = 0x00;        // All inputs
     PORTD = 0x00;       // No internal pull-ups (using external 10k pull-downs)
 
-
+    // ===== INITIALIZE PERIPHERALS =====
+    lcd_init();
+    lcd_clear();
+    lcd_print_string("Weather Station");
+    lcd_set_cursor(1, 0);
+    lcd_print_string("Booting...");
+    delay_ms(1500);
 
 while (1)
     {
