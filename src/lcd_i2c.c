@@ -26,10 +26,10 @@
 #define LCD_LINE1 0x80
 #define LCD_LINE2 0xC0
 
-#define MENU_MAIN
-#define MENU_TEMP_HUM
-#define MENU_TIME
-#define MENU_ABOUT
+#define MENU_MAIN       0
+#define MENU_TEMP_HUM    1
+#define MENU_TIME         2
+
 
 
 #define I2C_SDA_HIGH() PORTC |= (1<<4)
@@ -390,7 +390,7 @@ void main(void)
 {     unsigned char menu_selection=0;
       unsigned char current_menu=MENU_MAIN;
       
-      / ===== SETUP PORTS =====
+      // ===== SETUP PORTS =====
     // I2C port: PC4 (SDA) and PC5 (SCL)
     DDRC = 0x00;        // All inputs initially
     PORTC = 0x30;       // Enable pull-ups on PC4 and PC5
@@ -432,6 +432,22 @@ while (1)
                     }
                 }
                 break;
+                case MENU_TEMP_HUM:
+                // Show temperature and humidity
+                display_temperature_humidity();
+                current_menu = MENU_MAIN;
+                menu_selection = 0;
+                break;
+                
+            case MENU_TIME:
+                // Show current time
+                display_time();
+                current_menu = MENU_MAIN;
+                menu_selection = 1;
+                break;
+        }
+        
+        delay_ms(50);
     
     }
 }
