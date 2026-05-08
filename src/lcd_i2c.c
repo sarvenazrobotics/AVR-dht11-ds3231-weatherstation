@@ -366,11 +366,30 @@ void display_temperature_humidity(void) {
     }
     
     delay_ms(2000);}
-
+    
+    // Display current time from RTC
+void display_time(void) {
+    unsigned char h, m, s;
+    char buffer[17];
+    
+    ds3231_read_time(&h, &m, &s);
+    
+    lcd_clear();
+    lcd_set_cursor(0, 0);
+    lcd_print_string("Current Time:");
+    
+    lcd_set_cursor(1, 0);
+    sprintf(buffer, "%02d:%02d:%02d", h, m, s);
+    lcd_print_string(buffer);
+    
+    delay_ms(2000);
+}
 
   
 void main(void)
-{
+{     unsigned char menu_selection=0;
+      unsigned char current_menu=MENU_MAIN;
+      
 while (1)
     {
     // Please write your application code here
