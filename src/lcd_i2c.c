@@ -5,7 +5,7 @@
  * Author: Sarve
  */
 
-#include <io.h>
+#include <mega328p.h>
 #include <delay.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,32 +39,32 @@
 #define I2C_SDA_READ() (PINC & (1<<4))
 
 
-void i2c_delay(void){
+void sw_i2c_delay(void){
   delay_us(5);
 }
 
-void i2c_start(void){
+void sw_i2c_start(void){
 I2C_SDA_HIGH();
 I2C_SCL_HIGH();
-i2c_delay();
+sw_i2c_delay();
 I2C_SDA_LOW();
-i2c_delay();
+sw_i2c_delay();
 I2C_SCL_LOW();
-i2c_delay();
+sw_i2c_delay();
 }
 
 
-void i2c_stop(void){
+void sw_i2c_stop(void){
 I2C_SDA_LOW();
-
+sw_i2c_delay();
 I2C_SCL_HIGH();
-i2c_delay();
+sw_i2c_delay();
 I2C_SDA_HIGH();
-i2c_delay();
+sw_i2c_delay();
 }
 
 
-unsigned char i2c_write(unsigned char data)
+unsigned char sw_i2c_write(unsigned char data)
 {  unsigned char i,ack;
 //send 8 bits
 for(i=0;i<8;i++){
@@ -72,23 +72,52 @@ for(i=0;i<8;i++){
      I2C_SDA_HIGH();
  else
      I2C_SDA_LOW();
-     i2c_delay();
+     sw_i2c_delay();
      I2C_SCL_HIGH();
-     i2c_delay();
+     sw_i2c_delay();
      I2C_SDA_HIGH();
      data<<=1;} //move to next bit
      //get ack
      
      I2C_SDA_HIGH();//releases SDA for ack
-     i2c_delay();
+     sw_i2c_delay();
      I2C_SCL_HIGH();//slaves look at SDA just when SCL is high
-     i2c_delay();
+     sw_i2c_delay();
      ack=I2C_SDA_READ();//read slave answer
      I2C_SCL_LOW();//prepares for next operation
-     i2c_delay();
+     sw_i2c_delay();
      
      return ack; //ack means received and nack means 1
  }   
+ 
+ 
+ 
+ unsigned char sw_i2c_read(unsigned char ack)
+{
+    unsigned char i, data = 0;
+
+    I2C_SDA_HIGH(); // release SDA
+    for(i = 0; i < 8; i++) {
+        I2C_SCL_HIGH();
+        sw_i2c_delay();
+        data <<= 1;
+        if(I2C_SDA_READ()) data |= 1;
+        I2C_SCL_LOW();
+        sw_i2c_delay();
+    }
+
+    // Send ACK or NACK
+    if(ack) I2C_SDA_LOW();
+    else    I2C_SDA_HIGH();
+
+    I2C_SCL_HIGH();
+    sw_i2c_delay();
+    I2C_SCL_LOW();
+    I2C_SDA_HIGH();
+
+    return data;
+}
+
  
  
 //=========LCD functions======
@@ -111,18 +140,18 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   byte_to_send |= 0x04; //en=1 
   
   
-  i2c_start();
-  i2c_write(LCD_ADDR);
-  i2c_write(byte_to_send);
-  i2c_stop();
+  sw_i2c_start();
+  sw_i2c_write(LCD_ADDR);
+  sw_i2c_write(byte_to_send);
+  sw_i2c_stop();
   delay_us(1);  
   
 //pulse EN low LCD reads on falling edge
   byte_to_send &= ~0x04;
-  i2c_start();
-  i2c_write(LCD_ADDR);
-  i2c_write(byte_to_send);
-  i2c_stop();
+  sw_i2c_start();
+  sw_i2c_write(LCD_ADDR);
+  sw_i2c_write(byte_to_send);
+  sw_i2c_stop();
   delay_us(50);
   
 //===send low nibble===
@@ -135,16 +164,16 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
     }
     byte_to_send |= 0x04; //en=1 
     
-    i2c_start();
-    i2c_write(LCD_ADDR); 
-    i2c_write(byte_to_send);
-    i2c_stop();
+    sw_i2c_start();
+    sw_i2c_write(LCD_ADDR); 
+    sw_i2c_write(byte_to_send);
+    sw_i2c_stop();
     delay_us(50);
     
-    i2c_start();
-    i2c_write(LCD_ADDR);
-    i2c_write(byte_to_send);
-    i2c_stop();
+    sw_i2c_start();
+    sw_i2c_write(LCD_ADDR);
+    sw_i2c_write(byte_to_send);
+    sw_i2c_stop();
     delay_ms(2);
     } 
     
@@ -252,30 +281,30 @@ void lcd_send_byte(unsigned char data,unsigned char cmd)
   //READ CURRENT TIME FROM DS3231
   void ds3231_read_time(unsigned char *hour,unsigned char *minute,unsigned char *second)
   {
-  i2c_start();
-  i2c_write(DS3231_ADDR); //send write address
-  i2c_write(0x00); //start at second register
-  i2c_start(); //repeated start for read
-  i2c_write(DS3231_ADDR | 0x01);//send read address
+  sw_i2c_start();
+  sw_i2c_write(DS3231_ADDR); //send write address
+  sw_i2c_write(0x00); //start at second register
+  sw_i2c_start(); //repeated start for read
+  sw_i2c_write(DS3231_ADDR | 0x01);//send read address
   
-  *second = bcd_to_dec(i2c_write(0xFF)& 0x7F); //READ SECONDS,SEND ACK
-  *minute = bcd_to_dec(i2c_write(0xFF)& 0x7F);
-  *hour = bcd_to_dec(i2c_write(0xFF)& 0x3F);
+  *second = bcd_to_dec(sw_i2c_read(1)& 0x7F); //READ SECONDS,SEND ACK
+  *minute = bcd_to_dec(sw_i2c_read(1)& 0x7F);
+  *hour = bcd_to_dec(sw_i2c_read(0)& 0x3F);
   
   
-  i2c_stop();
+  sw_i2c_stop();
   }    
   
   
   void ds3231_set_time(unsigned char hour,unsigned char minute,unsigned char second)
    {
-  i2c_start();
-  i2c_write(DS3231_ADDR); //send write address
-  i2c_write(0x00); //start at second register
-  i2c_write(dec_to_bcd(second)); //repeated start for read
-  i2c_write(dec_to_bcd(minute));
-  i2c_write(dec_to_bcd(hour));
-  i2c_stop();
+  sw_i2c_start();
+  sw_i2c_write(DS3231_ADDR); //send write address
+  sw_i2c_write(0x00); //start at second register
+  sw_i2c_write(dec_to_bcd(second)); //repeated start for read
+  sw_i2c_write(dec_to_bcd(minute));
+  sw_i2c_write(dec_to_bcd(hour));
+  sw_i2c_stop();
    } 
    
  //====BUTTON FUNCTION====
