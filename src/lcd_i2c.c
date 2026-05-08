@@ -390,6 +390,17 @@ void main(void)
 {     unsigned char menu_selection=0;
       unsigned char current_menu=MENU_MAIN;
       
+      / ===== SETUP PORTS =====
+    // I2C port: PC4 (SDA) and PC5 (SCL)
+    DDRC = 0x00;        // All inputs initially
+    PORTC = 0x30;       // Enable pull-ups on PC4 and PC5
+    
+    // Button port: PD3 and PD4
+    DDRD = 0x00;        // All inputs
+    PORTD = 0x00;       // No internal pull-ups (using external 10k pull-downs)
+
+
+
 while (1)
     {
     // Please write your application code here
