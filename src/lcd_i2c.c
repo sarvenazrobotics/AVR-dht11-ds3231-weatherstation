@@ -409,7 +409,29 @@ void main(void)
 
 while (1)
     {
-    // Please write your application code here
-
+    switch(current_menu) {
+            case MENU_MAIN:
+                // Display the menu
+                display_main_menu(menu_selection);
+                
+                // Handle UP button (move cursor)
+                if(button_get_press(BUTTON_UP)) {
+                    if(menu_selection == 0) {
+                        menu_selection = 1;
+                        } else {
+                        menu_selection = 0;
+                    }
+                }
+                
+                // Handle DOWN button (select current item)
+                if(button_get_press(BUTTON_DOWN)) {
+                    if(menu_selection == 0) {
+                        current_menu = MENU_TEMP_HUM;
+                        } else {
+                        current_menu = MENU_TIME;
+                    }
+                }
+                break;
+    
     }
 }
