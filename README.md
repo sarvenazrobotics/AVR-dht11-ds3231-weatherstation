@@ -38,6 +38,15 @@ The LCD backpack is wired with 4-bit data mode:
 
 **I2C Address**: 0x20 (when A0=A1=A2=GND)
 
+
+
+
+https://github.com/user-attachments/assets/444faf32-9ff2-4503-8abb-51b203d28e6e
+
+
+
+
+
 ### DHT11
 
 | DHT11 Pin | ATmega328P Pin |
