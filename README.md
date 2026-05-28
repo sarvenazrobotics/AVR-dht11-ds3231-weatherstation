@@ -43,7 +43,7 @@ The LCD backpack is wired with 4-bit data mode:
 
 https://github.com/user-attachments/assets/444faf32-9ff2-4503-8abb-51b203d28e6e
 
-<img width="400" height="600" alt="5818793737138671768" src="https://github.com/user-attachments/assets/fb5482c5-c998-4445-b536-a5108759933e" />
+<img width="400" height="400" alt="5818793737138671768" src="https://github.com/user-attachments/assets/fb5482c5-c998-4445-b536-a5108759933e" />
 
 
 
