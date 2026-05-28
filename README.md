@@ -103,6 +103,13 @@ The code implements software I2C master with open-drain configuration:
 - Proper start/stop condition generation
 - NACK/ACK handling
 
+
+  
+
+https://github.com/user-attachments/assets/4017180c-4144-40f9-af74-8a646eed561c
+
+
+
 ### LCD Communication
 
 - 4-bit mode interface through PCF8574 I/O expander
