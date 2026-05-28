@@ -128,4 +128,5 @@ The code implements software I2C master with open-drain configuration:
 3. Add all source code
 4. Compile to generate HEX file
 
-### Fuse Settings (Typical for 16MHz external crystal)
+### License
+This code is open-source and free to use for educational and personal projects.
