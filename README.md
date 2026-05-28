@@ -130,3 +130,12 @@ The code implements software I2C master with open-drain configuration:
 
 ### License
 This code is open-source and free to use for educational and personal projects.
+
+## Project Author
+Sarvenaz Ashoori
+
+GitHub: @sarvenazrobotics
+
+Email: sarvenazrobotics@gmail.com
+
+LinkedIn: Sarvenaz Ashoori
